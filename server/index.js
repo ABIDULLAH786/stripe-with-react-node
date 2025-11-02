@@ -15,8 +15,8 @@ app.get("/", (req, res) => {
 })
 
 
-app.post("/api/stripe/create-checkout-session", async (req, res) => {
-  const { product } = req.body
+app.post("/api/stripe/create-single-checkout-session", async (req, res) => {
+  const product = req?.body?.product
   let line_item;
   if (!product) {
     line_item = {
@@ -30,7 +30,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       quantity: 1,
     };
   } else {
-    console.log({product})
+    console.log({ product })
     line_item = {
       price_data: {
         currency: "usd",
@@ -43,7 +43,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
       quantity: 1,
     };
   }
-  console.log({line_item})
+  console.log({ line_item })
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: [line_item],

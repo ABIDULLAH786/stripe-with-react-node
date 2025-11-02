@@ -39,12 +39,13 @@ export default function Plans() {
     const handleSubscribe = async (planId) => {
         try {
             const email = "testuser@example.com"; // Replace with logged-in user email
+              // Save the current route before redirecting
+            localStorage.setItem("lastPath", location.pathname);
+
             const { data } = await axios.post(
                 `${import.meta.env.VITE_BE_SERVER_URL}/api/stripe/create-subscription-session`,
                 { plan: planId, email }
             );
-            console.log({ data });
-
             window.location.href = data.url;
         } catch (err) {
             console.error(err);

@@ -12,8 +12,7 @@ export default function SingleCheckout() {
         // Save the current route before redirecting
         localStorage.setItem("lastPath", location.pathname);
 
-        const { data } = await axios.post(`${import.meta.env.VITE_BE_SERVER_URL}/api/stripe/create-checkout-session`);
-        console.log({ data })
+        const { data } = await axios.post(`${import.meta.env.VITE_BE_SERVER_URL}/api/stripe/create-single-checkout-session`);
         window.location.href = data.url; // Redirect to Stripe Checkout
     };
     return (
