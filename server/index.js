@@ -16,20 +16,37 @@ app.get("/", (req, res) => {
 
 
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
+  const { product } = req.body
+  let line_item;
+  if (!product) {
+    line_item = {
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: "React Stripe Checkout",
+        },
+        unit_amount: 100 * 100,
+      },
+      quantity: 1,
+    };
+  } else {
+    console.log({product})
+    line_item = {
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: product.title,
+          images: [product.image],
+        },
+        unit_amount: product.price * 100,
+      },
+      quantity: 1,
+    };
+  }
+  console.log({line_item})
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
-    line_items: [
-      {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: "React Stripe Checkout",
-          },
-          unit_amount: 100 * 100,
-        },
-        quantity: 1,
-      },
-    ],
+    line_items: [line_item],
     mode: "payment",
     success_url: `${process.env.FE_CLIENT_URL}/success`,
     cancel_url: `${process.env.FE_CLIENT_URL}/cancel`,

@@ -5,6 +5,7 @@ import Cancel from "./Pages/Cancel"
 import Success from "./Pages/Success"
 import Plans from "./Pages/Plans"
 import ProductCheckoutPage from "./Pages/ProductCheckoutPage"
+import LandingPage from "./Pages/LandingPage"
 
 function App() {
 
@@ -13,7 +14,7 @@ function App() {
       <Header />
 
       <Routes>
-        <Route path="/" element={<SingleCheckout />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/single-checkout" element={<SingleCheckout />} />
         <Route path="/multi-checkout" element={<ProductCheckoutPage />} />
         <Route path="/plans" element={<Plans />} />
