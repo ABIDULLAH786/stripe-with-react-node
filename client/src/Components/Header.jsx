@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Github } from "lucide-react"; // 👈 Added Github icon
 import { useState, useEffect, useRef } from "react";
 
 export default function Header() {
@@ -10,7 +10,6 @@ export default function Header() {
     { name: "Single Checkout", path: "/single-checkout" },
     { name: "Subscription Billing", path: "/plans" },
     { name: "Multi/Single Checkout", path: "/multi-checkout" },
-    // { name: "Payment Intent API", path: "/payment-intent" },
   ];
 
   // ✅ Close menu on outside click
@@ -27,7 +26,6 @@ export default function Header() {
       document.removeEventListener("mousedown", handleClickOutside);
     }
 
-    // Cleanup on unmount
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
@@ -40,23 +38,36 @@ export default function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex space-x-6">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `text-sm font-medium transition-colors ${
-                  isActive
-                    ? "text-indigo-600 border-b-2 border-indigo-600 pb-1"
-                    : "text-gray-700 hover:text-indigo-500"
-                }`
-              }
-            >
-              {item.name}
-            </NavLink>
-          ))}
-        </nav>
+        <div className="hidden md:flex items-center space-x-6">
+          <nav className="flex space-x-6">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  `text-sm font-medium transition-colors ${
+                    isActive
+                      ? "text-indigo-600 border-b-2 border-indigo-600 pb-1"
+                      : "text-gray-700 hover:text-indigo-500"
+                  }`
+                }
+              >
+                {item.name}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* GitHub Icon */}
+          <a
+            href="https://github.com/ABIDULLAH786/stripe-with-react-node" // 👈 your repo link
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-700 hover:text-indigo-600 transition-colors"
+            title="View on GitHub"
+          >
+            <Github size={22} />
+          </a>
+        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -89,6 +100,16 @@ export default function Header() {
               {item.name}
             </NavLink>
           ))}
+
+          {/* GitHub link for mobile */}
+          <a
+            href="https://github.com/ABIDULLAH786/stripe-with-react-node"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-2 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 rounded-lg"
+          >
+            <Github size={20} /> GitHub Repo
+          </a>
         </div>
       )}
     </header>

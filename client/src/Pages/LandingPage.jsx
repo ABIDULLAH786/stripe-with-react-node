@@ -7,7 +7,7 @@ const LandingPage = () => {
   const handleCheckout = async (product) => {
     localStorage.setItem("lastPath", location.pathname);
     const { data } = await axios.post(
-      `${import.meta.env.VITE_BE_SERVER_URL}/api/stripe/create-checkout-session`,
+      `${import.meta.env.VITE_BE_SERVER_URL}/api/stripe/create-single-checkout-session`,
       { product }
     );
     window.location.href = data.url;
