@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { CheckCircle } from "lucide-react"; // lightweight icon
+import Button from "../Components/Button";
 
 export default function Success() {
   const navigate = useNavigate();
@@ -18,12 +19,9 @@ export default function Success() {
         <p className="text-gray-600 mb-6">
           Thank you! Your payment was processed successfully.
         </p>
-        <button
-          onClick={handleBack} // Go back to your last page
-          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 cursor-pointer rounded-lg font-medium transition-all"
-        >
-          Go Back
-        </button>
+        <Button variant="success" onClick={handleBack}>Go Back</Button>
+
+      
       </div>
     </div>
   );

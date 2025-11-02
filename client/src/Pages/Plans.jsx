@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Check } from "lucide-react";
+import Button from "../Components/Button";
 
 const plans = [
     {
@@ -74,12 +75,8 @@ export default function Plans() {
                             ))}
                         </ul>
 
-                        <button
-                            onClick={() => handleSubscribe(plan.id)}
-                            className={`${plan.buttonColor} cursor-pointer text-white font-medium px-6 py-2 rounded-lg transition`}
-                        >
-                            Subscribe
-                        </button>
+                        <Button variant="primary" onClick={() => handleSubscribe(plan.id)}>Subscribe</Button>
+
                     </div>
                 ))}
             </div>

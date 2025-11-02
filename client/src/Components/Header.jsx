@@ -2,9 +2,9 @@ import { Link, NavLink } from "react-router-dom";
 
 export default function Header() {
   const navItems = [
-    { name: "Checkout Redirect", path: "/checkout-redirect" },
+    { name: "Single Checkout", path: "/single-checkout" },
     { name: "Subscription Billing", path: "/plans" },
-    { name: "Stripe Elements", path: "/elements" },
+    { name: "Multi/Single Checkout", path: "/multi-checkout" },
     { name: "Payment Intent API", path: "/payment-intent" },
   ];
 

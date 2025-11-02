@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { XCircle } from "lucide-react";
+import Button from "../Components/Button";
 
 export default function Cancel() {
   const navigate = useNavigate();
@@ -20,12 +21,9 @@ export default function Cancel() {
         <p className="text-gray-600 mb-6">
           Your payment was not completed. You can try again anytime.
         </p>
-        <button
-          onClick={handleBack} // Go back to your last page
-          className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 cursor-pointer rounded-lg font-medium transition-all"
-        >
-          Go Back
-        </button>
+        <Button variant="danger" onClick={handleBack}>Cancel</Button>
+
+       
       </div>
     </div>
   );

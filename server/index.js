@@ -14,46 +14,6 @@ app.get("/", (req, res) => {
   res.send("hello world, It is working fine")
 })
 
-app.post("/payment", (req, res) => {
-  const { product, token } = req.body
-  console.log({ product, token })
-
-  const idempontencyKey = uuid()
-  return stripe.customers.create({
-    email: token.email,
-    source: token.id
-  }).then(customer => {
-    stripe.charges.create({
-      amount: product.price * 100,
-      currency: "usd",
-      customer: customer.id,
-      receipt_email: token.email,
-      description: `Purchased the ${product.name}`,
-      shipping: {
-        name: token.card.name,
-        address: {
-          line1: token.card.address_line1,
-          line2: token.card.address_line2,
-          city: token.card.address_city,
-          country: token.card.address_country,
-          postal_code: token.card.address_zip
-        }
-      }
-    }, { idempontencyKey })
-  }).then(result => res.status(200).json(result))
-    .catch(err => console.log(err))
-})
-
-app.post("/payments/create", async (req, res) => {
-  const { total } = req.body
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: total,
-    currency: "usd",
-  })
-  res.status(201).send({
-    clientSecret: paymentIntent.client_secret,
-  })
-})
 
 app.post("/api/stripe/create-checkout-session", async (req, res) => {
   const session = await stripe.checkout.sessions.create({
@@ -72,7 +32,7 @@ app.post("/api/stripe/create-checkout-session", async (req, res) => {
     ],
     mode: "payment",
     success_url: `${process.env.FE_CLIENT_URL}/success`,
-    cancel_url: `${process.env.FE_CLIENT_URL}/success`,
+    cancel_url: `${process.env.FE_CLIENT_URL}/cancel`,
   });
 
   res.json({ id: session.id, url: session.url });
@@ -112,6 +72,39 @@ app.post("/api/stripe/create-subscription-session", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 })
+
+app.post("/api/stripe/create-multi-checkout-session", async (req, res) => {
+  try {
+    const { products } = req.body;
+
+    if (!products || products.length === 0) {
+      return res.status(400).json({ error: "No products selected" });
+    }
+
+
+    const line_items = products.map((p) => ({
+      price_data: {
+        currency: "usd",
+        product_data: { name: p.title, images: [p.image] },
+        unit_amount: p.price * 100,
+      },
+      quantity: p.quantity,
+    }));
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items,
+      mode: "payment",
+      success_url: `${process.env.FE_CLIENT_URL}/success`,
+      cancel_url: `${process.env.FE_CLIENT_URL}/cancel`,
+    });
+
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {

@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
+import Button from "../Components/Button";
 
-export default function CheckoutRedirect() {
+export default function SingleCheckout() {
     const [product] = useState({
         name: "React Stripe Checkout",
         price: 99.99,
         productBy: "Facebook",
     });
-    console.log("VITE_BE_SERVER_URL", import.meta.env.VITE_BE_SERVER_URL);
     const handleCheckout = async () => {
         // Save the current route before redirecting
         localStorage.setItem("lastPath", location.pathname);
@@ -36,12 +36,8 @@ export default function CheckoutRedirect() {
                 </div>
 
                 {/* Stripe Checkout Button */}
-                <button
-                    onClick={handleCheckout}
-                    className="bg-indigo-600 cursor-pointer hover:bg-indigo-700 text-white px-6 py-2 rounded-lg"
-                >
-                    Pay with Stripe
-                </button>
+                <Button variant="primary" onClick={handleCheckout}>Pay with Stripe</Button>
+
             </div>
         </div>
     )
